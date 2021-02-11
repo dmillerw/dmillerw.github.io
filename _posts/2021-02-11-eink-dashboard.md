@@ -33,18 +33,18 @@ _The following images aren't mine, so the firmware version doesn't match, but th
 
 You should see the NookManager loading screen, before being asked to select whether or not to enable wireless. Choose yes on this to ensure ADB is enabled.
 
-![nook_rooting_01.jpg]({{site.baseurl}}/_posts/nook_rooting_01.jpg)
-![nook_rooting_02.jpg]({{site.baseurl}}/_posts/nook_rooting_02.jpg)
+![nook_rooting_01.jpg]({{site.baseurl}}/images/nook_rooting_01.jpg)
+![nook_rooting_02.jpg]({{site.baseurl}}/images/nook_rooting_02.jpg)
 
 From here go to Root, Root my Device, and wait an exceptionally long time...
 
-![nook_rooting_04.jpg]({{site.baseurl}}/_posts/nook_rooting_04.jpg)
-![nook_rooting_06.jpg]({{site.baseurl}}/_posts/nook_rooting_06.jpg)
-![nook_rooting_07.jpg]({{site.baseurl}}/_posts/nook_rooting_07.jpg)
+![nook_rooting_04.jpg]({{site.baseurl}}/images/nook_rooting_04.jpg)
+![nook_rooting_06.jpg]({{site.baseurl}}/images/nook_rooting_06.jpg)
+![nook_rooting_07.jpg]({{site.baseurl}}/images/nook_rooting_07.jpg)
 
 Eventually you should arrive at the screen below
 
-![nook_rooting_08.jpg]({{site.baseurl}}/_posts/nook_rooting_08.jpg)
+![nook_rooting_08.jpg]({{site.baseurl}}/images/nook_rooting_08.jpg)
 
 Then simply go Back, Exit, follow the prompts, and allow the Nook to reboot.
 
