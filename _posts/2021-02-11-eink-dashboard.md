@@ -1,7 +1,4 @@
 ---
-published: false
----
----
 published: true
 ---
 ## E-Ink Dashboard
@@ -59,12 +56,12 @@ The root process also installs the Nook Touch Mod Manager apk. This will allow y
 
 Assuming everything went well when rooting, you should have ADB access. ADB over WiFi is enabled by default, so determine the IP address of your Nook and then on any computer with ADB installed, connect.
 
-{% shell %}
+```shell
 adb connect (ip address)
-{% endhighlight %}
+```
 
 Then download the provided apk file, and install it to the device
 
-{% shell %}
+```shell
 adb install vnc.apk
-{% endhighlight %}## A New Post
+```
