@@ -50,10 +50,19 @@ Then simply go Back, Exit, follow the prompts, and allow the Nook to reboot.
 
 Upon rebooting you will be asked to select a Launcher to use going forward. Make sure you select Relaunch, and check the checkbox box. This will disable the Barnes and Noble launcher.
 
+The root process also installs the Nook Touch Mod Manager apk. This will allow you some minor customization as far as keeping back/menu buttons in the status bar, and disabling the screensaver. I recommend looking through this.
+
 ### Installing VNC Client
 
 Assuming everything went well when rooting, you should have ADB access. ADB over WiFi is enabled by default, so determine the IP address of your Nook and then on any computer with ADB installed, connect.
 
-{% shell ruby %}
+{% shell %}
 adb connect (ip address)
 {% endhighlight %}
+
+Then download the provided apk file, and install it to the device
+
+{% shell %}
+adb install vnc.apk
+{% endhighlight %}
+
