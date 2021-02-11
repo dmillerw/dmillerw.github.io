@@ -1,8 +1,6 @@
 ---
 published: true
 ---
-## E-Ink Dashboard
-
 **DISCLAIMER: I DID MOST OF THIS AT WAY-TOO-LATE-O'CLOCK**
 
 **If you can think of a better way to do something, please let me know**
@@ -65,3 +63,120 @@ Then download the provided apk file, and install it to the device
 ```shell
 adb install vnc.apk
 ```
+
+### Installing Magic Mirror
+
+Not going to go too much in detail here. Instructions for installing Magic Mirror can be found [here](https://docs.magicmirror.builders/getting-started/installation.html). The only key piece of information is make sure you follow the instructions under (Server Only)[https://docs.magicmirror.builders/getting-started/installation.html#server-only] as we won't be using the Electron client app.
+
+### Installing and configuring Openbox
+
+I used Openbox as the window manager for this. You could technically use any one you want, but this guide uses Openbox.
+
+Start by installing it, as well as a few extra useful tools. This also installs X if you don't have it already, and Chrome.
+
+```shell
+sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox xdotool unclutter sed chromium-browser
+```
+
+Once installed, configure Openbox. Open the **autostart** file, and insert the following config.
+
+```shell
+sudo nano /etc/xdg/openbox/autostart
+```
+
+```shell
+# turn off display power management system
+xset -dpms
+# turn off screen blanking
+xset s noblank          
+# turn off screen saver
+xset s off
+
+# Remove exit errors from the config files that could trigger a warning
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromi$
+
+# Hide the cursor when idle
+unclutter -idle 0.5 -root &
+
+# Run Chromium in kiosk mode
+chromium-browser  --noerrdialogs --disable-infobars --kiosk $KIOSK_URL
+```
+
+Finally, open the **environment** file and specify the **KIOSK_URL**
+
+```shell
+sudo nano /etc/xdg/openbox/environment
+```
+
+```shell
+export KIOSK_URL=http://localhost:7777
+```
+
+Port **7777** is the default for Magic Mirror, but if you've changed this, make sure it's reflected here.
+
+### Setting up VNC
+
+So I'm going to describe two methods of doing this. You can use the default vncserver implementation offered with the Pi, and this works fine. This does disable the ablility to connect via VNC normally though, if you actually use the desktop environment.
+The method I went with was to install Xvfb and x11vnc, and create a second X display that houses a Chrome instance.
+
+#### vncserver
+
+Open **/etc/vnc/xstartup** and replace it with the following script. I recommend backing this file up first though, just in case.
+
+```shell
+sudo mv /etc/vnc/xstartup /etc/vnc/xstartup.bak
+sudo nano /etc/vnc/xstartup
+```
+
+```shell
+#!/bin/sh
+
+xsetroot -solid grey
+vncconfig -iconic &
+xterm -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+
+exec openbox-session
+```
+
+Then launch VNC with the following command
+
+```shell
+vncserver -Encryption PreferOff -Authentication VncAuth -geometry 800x600
+```
+
+This will launch VNC connected to an X display with the proper resolution
+
+#### x11vnc
+
+This method requires a different setup, but keeps the default VNC configuration intact. I also went with it because x11vnc allows for rotating the output, which was useful for me.
+
+Install x11vnc as well as Xvfb.
+
+```shell
+sudo apt-get install x11vnc Xvfb
+```
+
+Launch and configure Xvfb
+
+```shell
+Xvfb :1 -extension GLX -screen 0 800x600x16
+```
+
+Launch openbox on the newly created screen
+
+```shell
+DISPLAY=:1 /usr/bin/openbox-session
+```
+
+Start VNC
+
+```shell
+x11vnc -shared -rotate xy -passwd password -many -forever -create -display :1 &
+```
+
+### Connecting
+
+Finally, open the **androidVNC** app installed on your Nook, and connect!
+
+**A key note, if you're using vncserver, ensure you put a :1 after the IP address _10.0.0.10:1_**
